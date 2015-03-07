@@ -14,9 +14,20 @@ var
 ctx = document.getElementById('graph-canvas').getContext('2d'),
 pie = new Chart(ctx);
 
+if (location.search.length !== 0) {
+  document.getElementById('user-repo').value = location.search.slice(1);
+  graph(location.search.slice(1));
+}
+
 document.getElementById('render').addEventListener('click', function () {
   var
-  repo = document.getElementById('user-repo').value.trim().split('/');
+  repo = document.getElementById('user-repo').value;
+
+  graph(repo);
+});
+
+function graph(repo) {
+  repo = repo.trim().split('/');
 
   if (repo.length === 2) {
     request.get('https://api.github.com/repos/' + repo[0] + '/' + repo[1] + '/languages')
@@ -38,7 +49,7 @@ document.getElementById('render').addEventListener('click', function () {
   } else {
     alert('invalid repository name');
   }
-});
+}
 
 function render(json) {
   var
