@@ -44,14 +44,14 @@ function graph(repo) {
           alert('invalid repository name');
           return;
         }
-        render(json);
+        render(repo.join('/'), json);
       });
   } else {
     alert('invalid repository name');
   }
 }
 
-function render(json) {
+function render(repo, json) {
   var
   names = Object.keys(json),
   data = [],
@@ -87,4 +87,26 @@ function render(json) {
     tooltipTemplate: '<%if (label){%><%=label+": "%><%}%><%=numeral(value).format("0.000%")%>',
     segmentShowStroke: false,
   });
+
+  updateURL('?' + repo);
+}
+
+function updateURL(url) {
+  history.pushState(null, null, url);
+
+  var
+  elems = document.getElementsByClassName('twitter-share-button'),
+  i, elem, len = elems.length;
+
+  for (i = 0; i < len; i++) {
+    elem = document.createElement('a');
+    elem.setAttribute('class', 'twitter-share-button')
+    elem.setAttribute('data-via', 'make_now_just');
+    elem.setAttribute('data-hashtags', 'repo-lang-graph');
+    elem.setAttribute('data-size', 'large');
+    elem.setAttribute('data-url', location.href);
+    elems[i].parentNode.replaceChild(elem, elems[i]);
+  }
+
+  twttr.widgets.load();
 }
