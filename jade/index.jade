@@ -1,0 +1,26 @@
+doctype html
+
+mixin github-button(type, user, repo, count)
+  iframe(src='https://ghbtns.com/github-btn.html?user=' + user + '&repo=' + repo + '&type=' + type + '&count=' + (count ? 'true' : 'none') + '&v=2&size=large',
+    frameborder=0, scrolling=0, width='100px', height='30px')
+
+html(lang='en')
+  head
+    meta(charset='utf-8')
+    title repo-lang-graph
+    link(rel='stylesheet', href='css/index.css')
+  body
+    header
+      h1 repo-lang-graph
+      +github-button('star', 'MakeNowJust', 'repo-lang-graph', true)
+      small
+        | Render a graph about languages using a your repository
+    main
+      section.graph-data
+        input#user-repo.graph-data__input(type='text', placeholder='User/Repo')
+        br
+        button#render.graph-data__button Render
+      section.graph
+        canvas#graph-canvas.graph__canvas(width=400,height=400)
+
+    script(src='js/index.js')
