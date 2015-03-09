@@ -44,6 +44,21 @@ if (location.search.length >= 1) {
   bloem.fromArray([location.search.slice(1)]).connect(renderFlow);
 }
 
+event('open-twitter', 'click').forEach(function () {
+  var
+  repo = document.getElementById('user-repo').value.trim();
+  query = [];
+
+  query.push(['text', (repo === '' ? '' : repo + ' - ') + 'repo-lang-graph']);
+  query.push(['url',  location.href]);
+  query.push(['via',  'make_now_just']);
+
+  query = query.map(function (q) {
+    return q[0] + '=' + encodeURIComponent(q[1]);
+  });
+
+  window.open('https://twitter.com/intent/tweet?' + query.join('&'));
+});
 
 // === actions ===
 

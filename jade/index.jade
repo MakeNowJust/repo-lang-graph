@@ -4,10 +4,18 @@ html(lang='en')
   head
     meta(charset='utf-8')
     title repo-lang-graph
+
+    // font-awesome
+    link(rel='stylesheet', href='//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css')
+
     link(rel='stylesheet', href='css/index.css')
   body
     header
       h1 repo-lang-graph
+      a.icon#open-twitter
+        span.fa.fa-twitter-square.fa-2x
+      a.icon(href='http://github.com/MakeNowJust/repo-lang-graph')
+        span.fa.fa-github-square.fa-2x
       p.description
         small
           | Render a graph about languages using a your repository
