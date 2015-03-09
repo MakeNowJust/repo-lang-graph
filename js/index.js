@@ -1,58 +1,119 @@
 var
+bloem     = require('bloem.js')
 Chart     = require('chart.js'),
 numeral   = require('numeral'),
 request   = require('superagent'),
 tinycolor = require('tinycolor2');
-
-global.numeral = numeral;
 
 var
 // from https://github.com/doda/github-language-colors
 colors = require('./colors.json');
 
 var
-ctx = document.getElementById('graph-canvas').getContext('2d'),
-pie = new Chart(ctx);
+canvas = document.getElementById('graph-canvas');
 
-if (location.search.length !== 0) {
+// === flow ===
+
+var
+renderFlow = bloem.map(validateRepoName);
+
+renderFlow
+  .reduce(checkLastRepoName, '')
+  .map(getLanguageData)
+  .map(calcLanguageData)
+  .reduceMap(renderGraph, null)
+  .map(updateUrl)
+  .rescue(function (err) {
+    if (err) {
+      alert(err.message || err);
+      console.log(err);
+    }
+  });
+
+var
+renderStart = bloem.merge(
+  event('render', 'click'),
+  event('user-repo', 'keydown')
+  .filter(keyIsEnter))
+  .map(value('user-repo'));
+
+renderStart.connect(renderFlow);
+
+if (location.search.length >= 1) {
   document.getElementById('user-repo').value = location.search.slice(1);
-  graph(location.search.slice(1));
+  bloem.fromArray([location.search.slice(1)]).connect(renderFlow);
 }
 
-document.getElementById('render').addEventListener('click', function () {
+
+// === actions ===
+
+function event(id, eventName) {
   var
-  repo = document.getElementById('user-repo').value;
+  pomp = bloem.Pomp();
 
-  graph(repo);
-});
+  document.getElementById(id).addEventListener(eventName, function (e) {
+    pomp.send(e);
+  });
 
-function graph(repo) {
-  repo = repo.trim().split('/');
+  return pomp;
+}
 
-  if (repo.length === 2) {
-    request.get('https://api.github.com/repos/' + repo[0] + '/' + repo[1] + '/languages')
-      .query({ access_token: '1c1d549be32bd9a094e78007628e7d1e8a46014b' })
-      .end(function (err, res) {
-        if (err) {
-          alert('network error');
-          return;
-        }
-        console.log(res);
-        var
-        json = JSON.parse(res.text);
-        if (json.message && json.documentation_url) {
-          alert('invalid repository name');
-          return;
-        }
-        render(repo.join('/'), json);
-      });
-  } else {
-    alert('invalid repository name');
+function keyIsEnter(e) {
+  return e.keyCode === 13; // Enter
+}
+
+function value(id) {
+  var
+  elem = document.getElementById(id);
+
+  return function () {
+    return elem.value;
+  };
+}
+
+function validateRepoName(value) {
+  value = value.trim().split('/');
+
+  if (value.length !== 2 || !value[0] || !value[1]) {
+    throw 'invalid repository name';
   }
+
+  return value.map(encodeURI).join('/');
 }
 
-function render(repo, json) {
+function checkLastRepoName(lastRepoName, repo) {
+  if (lastRepoName === repo) {
+    throw false; // skip
+  }
+
+  return repo;
+}
+
+function getLanguageData(repo, next) {
+  request.get('https://api.github.com/repos/' + repo + '/languages')
+    .query({ access_token: '1c1d549be32bd9a094e78007628e7d1e8a46014b' })
+    .end(function (err, res) {
+      if (err !== null) {
+        return next('request error');
+      }
+      console.log(res);
+
+      var
+      json = JSON.parse(res.text);
+      if (json.message && json.documentation_url) {
+        return next('request error');
+      }
+
+      next(null, {
+        json: json,
+        repo: repo,
+      });
+    });
+}
+
+function calcLanguageData(mem) {
   var
+  json = mem.json,
   names = Object.keys(json),
   data = [],
   sum = 0;
@@ -81,32 +142,23 @@ function render(repo, json) {
     return b.value - a.value;
   });
 
-  if (pie.clear) pie.clear();
-  if (pie.destroy) pie.destroy();
-  pie.Pie(data, {
-    tooltipTemplate: '<%if (label){%><%=label+": "%><%}%><%=numeral(value).format("0.000%")%>',
+  mem.data = data;
+  return mem;
+}
+
+function renderGraph(chart, mem) {
+  if (chart && chart.destroy) chart.destroy();
+
+  chart = new Chart(canvas.getContext('2d')).Pie(mem.data, {
+    tooltipTemplate: function (context) {
+      return context.label + ': ' + numeral(context.value).format('0.000%');
+    },
     segmentShowStroke: false,
   });
 
-  updateURL('?' + repo);
+  return [chart, mem.repo];
 }
 
-function updateURL(url) {
-  history.pushState(null, null, url);
-
-  var
-  elems = document.getElementsByClassName('twitter-share-button'),
-  i, elem, len = elems.length;
-
-  for (i = 0; i < len; i++) {
-    elem = document.createElement('a');
-    elem.setAttribute('class', 'twitter-share-button')
-    elem.setAttribute('data-via', 'make_now_just');
-    elem.setAttribute('data-hashtags', 'repo-lang-graph');
-    elem.setAttribute('data-size', 'large');
-    elem.setAttribute('data-url', location.href);
-    elems[i].parentNode.replaceChild(elem, elems[i]);
-  }
-
-  twttr.widgets.load();
+function updateUrl(repo) {
+  history.pushState(null, null, '?' + repo);
 }

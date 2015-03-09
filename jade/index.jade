@@ -1,14 +1,5 @@
 doctype html
 
-mixin github-button(type, user, repo, count)
-  iframe(src='https://ghbtns.com/github-btn.html?user=' + user + '&repo=' + repo + '&type=' + type + '&count=' + (count ? 'true' : 'none') + '&v=2&size=large',
-    frameborder=0, scrolling=0, height='30px')
-
-mixin tweet-button(via,hashtags)
-  a.twitter-share-button(href='https://twitter.com/share',data-via=via,data-hashtags=hashtags,data-size='large') Tweet
-  script
-    | !function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');
-
 html(lang='en')
   head
     meta(charset='utf-8')
@@ -17,8 +8,6 @@ html(lang='en')
   body
     header
       h1 repo-lang-graph
-      +tweet-button('make_now_just', 'repo-lang-graph')
-      +github-button('star', 'MakeNowJust', 'repo-lang-graph', true)
       p.description
         small
           | Render a graph about languages using a your repository
