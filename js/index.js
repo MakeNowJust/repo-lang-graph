@@ -15,10 +15,7 @@ canvas = document.getElementById('graph-canvas');
 // === flow ===
 
 var
-renderFlow = bloem.map(validateRepoName);
-
-renderFlow
-  .reduce(checkLastRepoName, '')
+renderFlow = validateRepoName()
   .map(getLanguageData)
   .map(calcLanguageData)
   .reduceMap(renderGraph, null)
@@ -28,9 +25,7 @@ renderFlow
       alert(err.message || err);
       console.log(err);
     }
-  });
-
-var
+  }),
 renderStart = bloem.merge(
   event('render', 'click'),
   event('user-repo', 'keydown')
@@ -86,22 +81,22 @@ function value(id) {
   };
 }
 
-function validateRepoName(value) {
-  value = value.trim().split('/');
+function validateRepoName() {
+  return bloem.map(function validate(value) {
+    value = value.trim().split('/');
 
-  if (value.length !== 2 || !value[0] || !value[1]) {
-    throw 'invalid repository name';
-  }
+    if (value.length !== 2 || !value[0] || !value[1]) {
+      throw 'invalid repository name';
+    }
 
-  return value.map(encodeURI).join('/');
-}
+    return value.map(encodeURI).join('/');
+  }).reduce(function checkLastRepoName(lastRepoName, repo) {
+    if (lastRepoName === repo) {
+      throw false; // skip
+    }
 
-function checkLastRepoName(lastRepoName, repo) {
-  if (lastRepoName === repo) {
-    throw false; // skip
-  }
-
-  return repo;
+    return repo;
+  }, '');
 }
 
 function getLanguageData(repo, next) {
