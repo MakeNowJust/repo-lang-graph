@@ -1,74 +1,157 @@
-@import 'nib'
+@import 'kouto-swiss'
 
-global-reset()
-reset-html5()
+normalize()
+box-sizing-reset()
 
-*
-  box-sizing border-box
+black = #2f2f2f
+white = #fff
+gray = #d8d8d8
+gray2 = #edeff1
+
+inactive = #1abc9c
+active = #48c9b0
+
+content-box(zero-border = true)
+  if zero-border
+    border none
+  margin 0
+  padding 0
+
+
+html, body
+  color black
+  font-family 'Raleway', sans-serif
+  font-size 14px
+  height 100%
+  width 100%
 
 header
-  position absolute
-  left 0
-  top 0
-  z-index 1
+  border-bottom solid 1px gray
+  padding 1em 0 0 1em
   width 100%
-  height 6em
-  padding-left 1em
-  padding-top 1em
 
-  border-bottom 1px solid #d8d8d8
-
-  h1
-    display inline-block
+  > h1
+    content-box()
     font-size 3em
-    padding-right (1/3)em
-  .description
-    padding-top 0.2em
+    font-weight normal
 
-  a.icon
-    color black
-    padding-right 0.2em
-    cursor pointer
-    :hover
-      color gray
-
+  > p
+    content-box()
 
 main
-  position absolute
-  left 0
-  top 0
-  padding-top 7em
-  width 100%
-  height 100%
+  position relative
+  margin 0 auto 2.2em auto
+  width 1000px
 
-  .graph-data
-    text-align center
-
-    &__input
-      width 30em
-      font-size 1.3em
-      border solid gray 1px
-      border-radius 2px
-      padding-left 1em
-      padding-right 1em
-      padding-top 0.3em
-      padding-bottom 0.3em
-      margin-right 0.5em
-
-      &:focus
-        border solid black 1px
-
-    &__button
-      margin-top 0.3em
-      font-size 1.5em
-      border solid gray 1px
-      border-radius 2px
-
-  .graph
-    padding-top 3em
+  > .graph-data
+    background gray2
+    border-radius 0.3em
+    margin-top 1em
+    padding 1em 0
     width 100%
-    &__canvas
+    > input[type='text'] , > button[type='submit']
       display block
+      transition border-color .25s linear, background-color .25s linear
+    > input[type='text']
+      background white
+      border 2px solid white
+      border-radius 0.3em
+      height 3em
       margin 0 auto
-      width 400
-      height 400
+      outline 0
+      padding 0.3em 0.6em
+      width 80%
+      &:focus
+        border 2px solid active
+    > button[type='submit']
+      background inactive
+      border none
+      border-radius 0.3em
+      color white
+      margin 0 auto
+      outline 0
+      padding 0.5em 0.9em
+      width 20%
+      &:hover
+        background active
+
+  > .graph
+    margin-top 1em
+    text-align center
+    width 100%
+    > canvas
+      height auto
+      width 100%
+
+  > .legend
+    font-size 1.4em
+    margin-top 1em
+    width 100%
+    > table
+      margin 0 auto
+      width 80%
+      tr
+        height 1.5em
+        padding 0.5em 0 0 0
+      > thead > tr
+        border-top 1px solid gray
+        border-bottom 1px solid gray
+      > tbody > tr
+        background white
+        transition background-color .25s linear
+        > td:nth-child(1)
+          text-align center
+          > a
+            color black
+            text-decoration none
+        > td:nth-child(2)
+          text-align right
+        &:hover
+          background gray
+          color white
+          > td > a
+            color white
+            border-bottom 1px dotted
+
+
+footer
+  background white
+  bottom 0
+  display block
+  left 0
+  line-height 2em
+  padding 0.6em 0
+  position fixed
+  right 0
+  text-align center
+  width 100%
+
+  > p
+    display inline-block
+    margin 0 1em
+    padding 0
+    a
+      border-bottom 1px dotted
+      color black
+      text-decoration none
+
+@media screen and (max-width: 1000px)
+  header
+    > h1
+      font-size 2em
+    > p > small
+      font-size 0.6em
+
+  main
+    margin-bottom 0
+    width 100%
+
+    > .graph-data
+      > button[type='submit']
+        width 40%
+
+  footer
+    bottom auto
+    left auto
+    position absolute
+    right auto
