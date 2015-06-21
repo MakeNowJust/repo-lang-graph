@@ -1,11 +1,11 @@
 // load gulp and plugins
 var
-gulp     = require('gulp'),
-jade     = require('gulp-jade'),
-stylus   = require('gulp-stylus'),
-connect  = require('gulp-connect'),
-sequence = require('gulp-sequence'),
-webpack  = require('webpack-stream'),
+gulp      = require('gulp'),
+jade      = require('gulp-jade'),
+stylus    = require('gulp-stylus'),
+webserver = require('gulp-webserver'),
+sequence  = require('gulp-sequence'),
+webpack   = require('webpack-stream'),
 
 // load other packages
 path   = require('path'),
@@ -27,18 +27,20 @@ gulp.task('init', function (cb) {
   ], cb);
 });
 
-gulp.task('connect', function () {
-  connect.server({
-    root: DEST,
-    livereload: true,
-  });
+gulp.task('webserver', function () {
+  return gulp.src(DEST, {dot: true})
+    .pipe(webserver({
+      host: '0.0.0.0',
+      path: '/repo-lang-graph',
+      livereload: true,
+      open: 'http://localhost:8000/repo-lang-graph',
+    }));
 });
 
 gulp.task('jade', function () {
   return gulp.src('jade/*.jade')
     .pipe(jade())
-    .pipe(gulp.dest(DEST))
-    .pipe(connect.reload());
+    .pipe(gulp.dest(DEST));
 });
 
 gulp.task('stylus', function () {
@@ -46,8 +48,7 @@ gulp.task('stylus', function () {
     .pipe(stylus({
       use: [require('kouto-swiss')()],
     }))
-    .pipe(gulp.dest(path.join(DEST, 'css')))
-    .pipe(connect.reload());
+    .pipe(gulp.dest(path.join(DEST, 'css')));
 });
 
 gulp.task('webpack', function () {
@@ -63,14 +64,12 @@ gulp.task('webpack', function () {
         filename: '[name].js',
       },
     }))
-    .pipe(gulp.dest(path.join(DEST, 'js')))
-    .pipe(connect.reload());
+    .pipe(gulp.dest(path.join(DEST, 'js')));
 });
 
 gulp.task('copy', function () {
   return gulp.src('www/**/*')
-    .pipe(gulp.dest(DEST))
-    .pipe(connect.reload());
+    .pipe(gulp.dest(DEST));
 });
 
 gulp.task('watch', function () {
@@ -82,4 +81,4 @@ gulp.task('watch', function () {
 
 gulp.task('build', sequence('init', ['jade', 'stylus', 'webpack', 'copy']));
 
-gulp.task('default', sequence('build', ['watch', 'connect']));
+gulp.task('default', sequence('build', ['watch', 'webserver']));
