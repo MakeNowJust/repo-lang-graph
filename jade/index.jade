@@ -3,28 +3,33 @@ doctype html
 html(lang='en')
   head
     meta(charset='utf-8')
+    meta(name='viewport', content='width=device-width')
     title repo-lang-graph
 
-    // font-awesome
-    link(rel='stylesheet', href='//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css')
+    // Google Web Fonts
+    link(rel='stylesheet', href='http://fonts.googleapis.com/css?family=Raleway')
 
     link(rel='stylesheet', href='css/index.css')
   body
     header
       h1 repo-lang-graph
-      a.icon#open-twitter
-        span.fa.fa-twitter-square.fa-2x
-      a.icon(href='http://github.com/MakeNowJust/repo-lang-graph')
-        span.fa.fa-github-square.fa-2x
       p.description
         small
           | Render a graph about languages using a your repository
+
     main
-      section.graph-data
-        input#user-repo.graph-data__input(type='text', placeholder='User/Repo')
-        br
-        button#render.graph-data__button Render
+      form.graph-data#graph-data
+        input#user-repo(type='text', placeholder='User/Repo')
+        button(type='submit') Render
       section.graph
-        canvas#graph-canvas.graph__canvas(width=400,height=400)
+        canvas#graph-canvas
+      section#legend.legend
+
+    footer
+      p.copyright
+        small
+          | &copy; 2015 
+          a(href='https://github.com/MakeNowJust') TSUYUSATO Kitsune
+      iframe(src='https://ghbtns.com/github-btn.html?user=MakeNowJust&repo=repo-lang-graph&type=star&count=true', frameborder=0, scrolling=0, width='100px', height='20px')
 
     script(src='js/index.js')
