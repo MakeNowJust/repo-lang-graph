@@ -19,41 +19,24 @@ renderFlow = validateRepoName()
   .map(getLanguageData)
   .map(calcLanguageData)
   .reduceMap(renderGraph, null)
-  .map(updateUrl)
+  .map(updateLegend)
+  .map(updateUrl),
+renderStart = event('graph-data', 'submit')
+  .map(value('user-repo'));
+
+renderStart.connect(renderFlow)
   .rescue(function (err) {
     if (err) {
       alert(err.message || err);
       console.log(err);
     }
-  }),
-renderStart = bloem.merge(
-  event('render', 'click'),
-  event('user-repo', 'keydown')
-  .filter(keyIsEnter))
-  .map(value('user-repo'));
-
-renderStart.connect(renderFlow);
+  });
 
 if (location.search.length >= 1) {
   document.getElementById('user-repo').value = location.search.slice(1);
   bloem.fromArray([location.search.slice(1)]).connect(renderFlow);
 }
 
-event('open-twitter', 'click').forEach(function () {
-  var
-  repo = document.getElementById('user-repo').value.trim();
-  query = [];
-
-  query.push(['text', (repo === '' ? '' : repo + ' - ') + 'repo-lang-graph']);
-  query.push(['url',  location.href]);
-  query.push(['via',  'make_now_just']);
-
-  query = query.map(function (q) {
-    return q[0] + '=' + encodeURIComponent(q[1]);
-  });
-
-  window.open('https://twitter.com/intent/tweet?' + query.join('&'));
-});
 
 // === actions ===
 
@@ -62,6 +45,7 @@ function event(id, eventName) {
   pomp = bloem.Pomp();
 
   document.getElementById(id).addEventListener(eventName, function (e) {
+    e.preventDefault();
     pomp.send(e);
   });
 
@@ -134,10 +118,7 @@ function calcLanguageData(mem) {
 
   names.forEach(function (name) {
     var
-    color = tinycolor(colors[{
-      'C++': 'cpp',
-      'C#': 'C Sharp',
-    }[name] || name] || '#d8d8d8'),
+    color = tinycolor(colors[name] || '#d8d8d8'),
     val = json[name] / sum;
 
     data.push({
@@ -145,6 +126,7 @@ function calcLanguageData(mem) {
       color: color.toHexString(),
       highlight: color.lighten().toHexString(),
       value: val,
+      bytes: json[name],
     });
   });
 
@@ -166,9 +148,74 @@ function renderGraph(chart, mem) {
     segmentShowStroke: false,
   });
 
-  return [chart, mem.repo];
+  return [chart, mem];
+}
+
+function updateLegend(mem) {
+  var
+  data = mem.data,
+  legendSection = document.getElementById('legend'),
+  legendTable = document.getElementById('legend-table'),
+  body;
+
+  if (legendTable !== null) {
+    legendSection.removeChild(legendTable);
+  }
+  legendTable = element('table');
+  legendTable.setAttribute('id', 'legend-table');
+
+  legendTable.appendChild(element('thead', [
+    element('tr', [
+      element('th', 'Language'),
+      element('th', 'Bytes (Percent)'),
+    ])]));
+
+  body = element('tbody');
+
+  mem.data.forEach(function (data) {
+    var
+    row = element('tr', [
+      element('td', [
+        element('a', data.label, {
+          href: 'https://github.com/' + mem.repo + '/search?q=' + encodeURIComponent('language:' + JSON.stringify(data.label)),
+        })]),
+      element('td', data.bytes + 'byte' + (data.bytes === 1 ? '' : 's') + 
+        ' (' + numeral(data.value).format('0.000%') + ')'),
+    ]);
+    row.style.borderBottom = '3px solid ' + data.color;
+    body.appendChild(row);
+  });
+
+  legendTable.appendChild(body);
+  legendSection.appendChild(legendTable);
+
+  return mem.repo;
 }
 
 function updateUrl(repo) {
   history.pushState(null, null, '?' + repo);
+}
+
+
+// == utilities ==
+
+function element(tag, content, attr) {
+  var
+  el = document.createElement(tag);
+
+  if (Array.isArray(content)) {
+    content.forEach(function (child) {
+      el.appendChild(child);
+    });
+  } else if (typeof content !== 'undefined') {
+    el.textContent = el.innerText = content;
+  }
+
+  if (attr) {
+    Object.keys(attr).forEach(function (name) {
+      el.setAttribute(name, attr[name]);
+    });
+  }
+
+  return el;
 }
