@@ -7,7 +7,8 @@ LANGUAGE_YAML_URL = 'https://raw.githubusercontent.com/github/linguist/master/li
 
 request
   .get(LANGUAGE_YAML_URL)
-  .end(function (res) {
+  .end(function (err, res) {
+    if (err) throw err;
     var
     langs = yaml.safeLoad(res.text),
     colors = Object.keys(langs).reduce(function (colors, name) {
