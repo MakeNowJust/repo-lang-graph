@@ -2,6 +2,7 @@
   "name": "repo-lang-graph",
   "description": "Render a graph about languages using a your repository",
   "version": "0.1.0",
+  "license": "MIT",
   "private": true,
   "scripts": {
     "gulp": "gulp"
