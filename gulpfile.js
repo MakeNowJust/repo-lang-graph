@@ -5,7 +5,7 @@ jade     = require('gulp-jade'),
 stylus   = require('gulp-stylus'),
 connect  = require('gulp-connect'),
 sequence = require('gulp-sequence'),
-webpack  = require('gulp-webpack'),
+webpack  = require('webpack-stream'),
 
 // load other packages
 path   = require('path'),
@@ -42,12 +42,9 @@ gulp.task('jade', function () {
 });
 
 gulp.task('stylus', function () {
-  var
-  nib = require('nib');
-
   return gulp.src('styl/*.styl')
     .pipe(stylus({
-      use: [nib()],
+      use: [require('kouto-swiss')()],
     }))
     .pipe(gulp.dest(path.join(DEST, 'css')))
     .pipe(connect.reload());
