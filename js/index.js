@@ -158,11 +158,16 @@ function updateLegend(mem) {
   legendTable = document.getElementById('legend-table'),
   body;
 
+
   if (legendTable !== null) {
     legendSection.removeChild(legendTable);
   }
-  legendTable = element('table');
-  legendTable.setAttribute('id', 'legend-table');
+  legendTable = element('table', undefined, {id: 'legend-table'});
+
+  legendTable.appendChild(element('caption', [
+    element('a', mem.repo, {
+      href: 'https://github.com/' + mem.repo,
+    })]));
 
   legendTable.appendChild(element('thead', [
     element('tr', [
