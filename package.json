@@ -1,7 +1,7 @@
 {
   "name": "repo-lang-graph",
   "description": "Render a graph about languages using a your repository",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "author": "TSUYUSATO Kitsune <make.just.on@gmail.com>",
   "dependencies": {
     "bloem.js": "^0.6.0",
