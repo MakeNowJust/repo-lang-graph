@@ -12,8 +12,10 @@ request
     var
     langs = yaml.safeLoad(res.text),
     colors = Object.keys(langs).reduce(function (colors, name) {
-      if ('color' in langs[name]) {
+      if (langs[name].color) {
         colors[name] = langs[name].color;
+      } else {
+        console.error('Missing color: ' + name);
       }
       return colors;
     }, {});
