@@ -43,21 +43,28 @@ header
     content-box()
 
 aside.contribute
-  background black
-  color white
-  display block
-  position fixed
-  right -3em
-  text-align center
-  top 3em
-  transform rotate(45deg)
+  position absolute
+  right 0em
+  top 0em
   width 15em
-  z-index 1000
-  > h2
-    content-box()
-    > a
-      color white
-      border-bottom 1px dotted
+  height 15em
+  overflow hidden
+  div.container
+    background black
+    color white
+    display block
+    position absolute
+    top 3em
+    right -3em
+    text-align center
+    transform rotate(45deg)
+    width 100%
+    z-index 1000
+    > h2
+      content-box()
+      > a
+        color white
+        border-bottom 1px dotted
 
 main
   position relative
