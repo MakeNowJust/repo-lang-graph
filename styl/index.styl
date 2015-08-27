@@ -42,6 +42,23 @@ header
   > p
     content-box()
 
+aside.contribute
+  background black
+  color white
+  display block
+  position fixed
+  right -3em
+  text-align center
+  top 3em
+  transform rotate(45deg)
+  width 15em
+  z-index 1000
+  > h2
+    content-box()
+    > a
+      color white
+      border-bottom 1px dotted
+
 main
   position relative
   margin 0 auto 3.4em auto
@@ -147,6 +164,8 @@ footer
       &:hover
         color gray2
         background black
+
+
 @media screen and (max-width: 1000px)
   header
     > h1
