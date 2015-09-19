@@ -85,7 +85,7 @@ function validateRepoName() {
 
 function getLanguageData(repo, next) {
   request.get('https://api.github.com/repos/' + repo + '/languages')
-    .query({ access_token: '1c1d549be32bd9a094e78007628e7d1e8a46014b' })
+    .query({ access_token: 'fffefc1ed288635fcf00880d4ed4fdbacc0718ad' })
     .end(function (err, res) {
       if (err !== null) {
         return next('request error');
