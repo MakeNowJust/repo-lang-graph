@@ -1,0 +1,405 @@
+html {
+  font-family: sans-serif;
+  -ms-text-size-adjust: 100%;
+  -webkit-text-size-adjust: 100%;
+}
+body {
+  margin: 0;
+}
+article,
+aside,
+details,
+figcaption,
+figure,
+footer,
+header,
+hgroup,
+main,
+nav,
+section,
+summary {
+  display: block;
+}
+audio,
+canvas,
+progress,
+video {
+  display: inline-block;
+  vertical-align: baseline;
+}
+audio:not([controls]) {
+  display: none;
+  height: 0;
+}
+[hidden],
+template {
+  display: none;
+}
+a {
+  background: transparent;
+}
+a:active,
+a:hover {
+  outline: 0;
+}
+abbr[title] {
+  border-bottom: 1px dotted;
+}
+b,
+strong {
+  font-weight: bold;
+}
+dfn {
+  font-style: italic;
+}
+h1 {
+  font-size: 2em;
+  margin: 0.67em 0;
+}
+mark {
+  background: #ff0;
+  color: #000;
+}
+small {
+  font-size: 80%;
+}
+sub,
+sup {
+  font-size: 75%;
+  line-height: 0;
+  position: relative;
+  vertical-align: baseline;
+}
+sup {
+  top: -0.5em;
+}
+sub {
+  bottom: -0.25em;
+}
+img {
+  border: 0;
+}
+svg:not(:root) {
+  overflow: hidden;
+}
+figure {
+  margin: 1em 40px;
+}
+hr {
+  -webkit-box-sizing: content-box;
+  -moz-box-sizing: content-box;
+  box-sizing: content-box;
+  height: 0;
+}
+pre {
+  overflow: auto;
+}
+code,
+kbd,
+pre,
+samp {
+  font-family: monospace, monospace;
+  font-size: 1em;
+}
+button,
+input,
+optgroup,
+select,
+textarea {
+  color: inherit;
+  font: inherit;
+  margin: 0;
+}
+button {
+  overflow: visible;
+}
+button,
+select {
+  text-transform: none;
+}
+button,
+html input[type="button"],
+input[type="reset"],
+input[type="submit"] {
+  -webkit-appearance: button;
+  cursor: pointer;
+}
+button[disabled],
+html input[disabled] {
+  cursor: default;
+}
+button::-moz-focus-inner,
+input::-moz-focus-inner {
+  border: 0;
+  padding: 0;
+}
+input {
+  line-height: normal;
+}
+input[type="checkbox"],
+input[type="radio"] {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  padding: 0;
+}
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  height: auto;
+}
+input[type="search"] {
+  -webkit-appearance: textfield;
+  -webkit-box-sizing: content-box;
+  -moz-box-sizing: content-box;
+  box-sizing: content-box;
+}
+input[type="search"]::-webkit-search-cancel-button,
+input[type="search"]::-webkit-search-decoration {
+  -webkit-appearance: none;
+}
+fieldset {
+  border: 1px solid #c0c0c0;
+  margin: 0 2px;
+  padding: 0.35em 0.625em 0.75em;
+}
+legend {
+  border: 0;
+  padding: 0;
+}
+textarea {
+  overflow: auto;
+}
+optgroup {
+  font-weight: bold;
+}
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+td,
+th {
+  padding: 0;
+}
+html {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+*,
+*:before,
+*:after {
+  -webkit-box-sizing: inherit;
+  -moz-box-sizing: inherit;
+  box-sizing: inherit;
+}
+html,
+body {
+  color: #2f2f2f;
+  font-family: 'Raleway', sans-serif;
+  font-size: 14px;
+  height: 100%;
+  width: 100%;
+}
+a {
+  text-decoration: none;
+  -webkit-transition: background-color 0.25s linear;
+  transition: background-color 0.25s linear;
+}
+header {
+  border-bottom: solid 1px #edeff1;
+  padding: 1em 0 0 1em;
+  width: 100%;
+}
+header > h1 {
+  border: none;
+  margin: 0;
+  padding: 0;
+  font-size: 3em;
+  font-weight: normal;
+}
+header > p {
+  border: none;
+  margin: 0;
+  padding: 0;
+}
+aside.contribute {
+  position: absolute;
+  right: 0em;
+  top: 0em;
+  width: 15em;
+  height: 15em;
+  overflow: hidden;
+}
+aside.contribute div.container {
+  background: #2f2f2f;
+  color: #fff;
+  display: block;
+  position: absolute;
+  top: 3em;
+  right: -3em;
+  text-align: center;
+  -webkit-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  transform: rotate(45deg);
+  width: 100%;
+  z-index: 1000;
+}
+aside.contribute div.container > h2 {
+  border: none;
+  margin: 0;
+  padding: 0;
+}
+aside.contribute div.container > h2 > a {
+  color: #fff;
+  border-bottom: 1px dotted;
+}
+main {
+  position: relative;
+  margin: 0 auto 3.4em auto;
+  width: 1000px;
+}
+main > .graph-data {
+  background: #edeff1;
+  border-radius: 0.3em;
+  margin-top: 1em;
+  padding: 1em 0;
+  width: 100%;
+}
+main > .graph-data > input[type='text'],
+main > .graph-data > button[type='submit'] {
+  display: block;
+  -webkit-transition: border-color 0.25s linear, background-color 0.25s linear;
+  transition: border-color 0.25s linear, background-color 0.25s linear;
+}
+main > .graph-data > input[type='text'] {
+  background: #fff;
+  border: 2px solid #fff;
+  border-radius: 0.3em;
+  height: 3em;
+  margin: 0 auto;
+  outline: 0;
+  padding: 0.3em 0.6em;
+  width: 80%;
+}
+main > .graph-data > input[type='text']:focus {
+  border: 2px solid #48c9b0;
+}
+main > .graph-data > button[type='submit'] {
+  background: #1abc9c;
+  border: none;
+  border-radius: 0.3em;
+  color: #fff;
+  margin: 0 auto;
+  outline: 0;
+  padding: 0.5em 0.9em;
+  width: 20%;
+}
+main > .graph-data > button[type='submit']:hover {
+  background: #48c9b0;
+}
+main > .graph {
+  margin-top: 1em;
+  text-align: center;
+  width: 100%;
+}
+main > .graph > canvas {
+  height: auto;
+  width: 100%;
+}
+main > .legend {
+  font-size: 1.4em;
+  margin-top: 1em;
+  width: 100%;
+}
+main > .legend > table {
+  margin: 0 auto;
+  width: 80%;
+}
+main > .legend > table tr {
+  height: 1.5em;
+  padding: 0.5em 0 0 0;
+}
+main > .legend > table > caption {
+  font-size: 1.4em;
+  margin-bottom: 0.5em;
+}
+main > .legend > table > caption > a {
+  color: #2f2f2f;
+  border-bottom: 1px dotted;
+}
+main > .legend > table > caption > a:hover {
+  background: #2f2f2f;
+  color: #edeff1;
+}
+main > .legend > table > thead > tr {
+  border-top: 1px solid #edeff1;
+  border-bottom: 1px solid #edeff1;
+}
+main > .legend > table > tbody > tr {
+  background: #fff;
+  -webkit-transition: background-color 0.25s linear;
+  transition: background-color 0.25s linear;
+}
+main > .legend > table > tbody > tr > td:nth-child(1) {
+  text-align: center;
+}
+main > .legend > table > tbody > tr > td:nth-child(1) > a {
+  color: #2f2f2f;
+}
+main > .legend > table > tbody > tr > td:nth-child(2) {
+  text-align: right;
+}
+main > .legend > table > tbody > tr:hover {
+  background: #8d8d8d;
+  color: #fff;
+}
+main > .legend > table > tbody > tr:hover > td > a {
+  color: #fff;
+  border-bottom: 1px dotted;
+}
+main > .legend > table > tbody > tr:hover > td > a:hover {
+  background: #2f2f2f;
+  color: #edeff1;
+}
+footer {
+  background: #fff;
+  display: block;
+  line-height: 2em;
+  padding: 0.6em 0;
+  text-align: center;
+  width: 100%;
+}
+footer > p {
+  display: inline-block;
+  margin: 0 1em;
+  padding: 0;
+}
+footer > p a {
+  border-bottom: 1px dotted;
+  color: #2f2f2f;
+}
+footer > p a:hover {
+  color: #edeff1;
+  background: #2f2f2f;
+}
+@media screen and (max-width: 1000px) {
+  header > h1 {
+    font-size: 2em;
+  }
+  header > p > small {
+    font-size: 0.6em;
+  }
+  main {
+    margin-bottom: 0;
+    width: 100%;
+  }
+  main > .graph-data > button[type='submit'] {
+    width: 40%;
+  }
+  footer {
+    bottom: auto;
+    left: auto;
+    position: absolute;
+    right: auto;
+  }
+}
